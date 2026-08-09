@@ -26,6 +26,10 @@ Choose one layout before adding objects. Layout ids define narrative structure, 
 | S20 | Stacked KPI Ledger | Four to six native ledger rows with values and context |
 | S21 | Tech Spec Sheet | Title, native KPI row, chart/table/spec evidence |
 | S22 | Image Hero | One genuine image asset plus editable title and KPI textboxes |
+| S23 | Hybrid Technical Split | Bounded image on one side; editable claim, mechanism, and implications on the other |
+| S24 | Panoramic Process Strip | Wide bounded process illustration with native stage labels, metrics, and one explanatory rail |
+| S25 | Annotated Scientific Visual | Central bounded scientific visual with editable headers, callouts, scale disclaimer, and technical notes |
+| S26 | Image + Native Proof | Bounded image or cutaway paired with an editable equation, comparison, spec block, or evidence table |
 
 ## Selection Rules
 
@@ -36,5 +40,10 @@ Choose one layout before adding objects. Layout ids define narrative structure, 
 - Use S12 or S10 to close.
 - Use quantitative layouts only with real data.
 - Use S22 only when the large visual is a real image asset, not a rendered slide.
+- Use S23 when visual intuition and editable explanation carry equal weight.
+- Use S24 for physical transformations such as source, manufacturing, or material sequences; keep all step names native.
+- Use S25 when a generated scientific illustration needs exact native annotations.
+- Use S26 when an image motivates the concept but the proof is an equation, spec, or comparison.
+- Keep images bounded and never bake audience-facing text into them.
 
 For 7–8 slides, use at least six layout ids. For 10 or more slides, use at least eight.
