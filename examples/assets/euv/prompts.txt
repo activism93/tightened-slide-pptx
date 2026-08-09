@@ -1,0 +1,31 @@
+# EUV example — ImageGen prompts
+
+The images in this directory are bounded visual assets used inside an editable PowerPoint deck. They intentionally contain no labels, numbers, logos, or slide-ready prose; factual labels remain native PowerPoint text.
+
+## s01-euv-chamber-hero.png
+
+Use case: stylized scientific concept art for the cover of a professional semiconductor engineering presentation. Create a wide, premium visualization of a generic EUV lithography optical chamber in high vacuum: multiple precision multilayer mirrors, a crisp cyan EUV beam, a reflective reticle, and a wafer stage. Put most optical hardware on the right and preserve calm negative space on the left for editable PowerPoint text. Dark navy and graphite palette with restrained cyan glow, realistic engineering detail, no people, no fantasy elements, no UI, no text, no labels, no numbers, no logo, no watermark.
+
+## s08-euv-absorption.png
+
+Use case: scientific educational illustration. Show a 13.5 nm EUV photon entering a material and transferring energy into a photoelectron and secondary-electron cascade; in the same coherent scene show a cyan EUV ray reflecting from a multilayer mirror. Landscape composition, event centered toward the right with calmer space on the left. Make the energy transfer physically plausible and do not imply that energy simply disappears. Professional white, navy, blue, and cyan palette with a small warm accent. No text, labels, numbers, arrows, logos, or watermark.
+
+## s09-euv-optical-train.png
+
+Use case: panoramic scientific cutaway for an engineering presentation. Depict a generic EUV optical train in vacuum, flowing left to right: a tiny tin plasma source, collector mirror, intermediate focus, illumination mirrors, reflective reticle, projection-mirror train, and wafer stage. Use only reflective optics; do not show transmissive lenses or a transmissive mask. Clean dark-vacuum chamber, precision mechanical detail, a continuous cyan EUV path, restrained navy/graphite palette. No text, labels, arrows, numbers, logos, or watermark.
+
+## s10-mosi-multilayer-mirror.png
+
+Use case: premium 3D scientific illustration for a semiconductor-engineering slide. Create a curved EUV mirror cutaway with alternating Mo/Si nanoscale layers visibly following the substrate curvature. Show a crisp cyan incident ray and reflected ray. The coating should read as a thin multilayer on a precision mirror, not as a wafer pattern. White and pale-blue background, navy/blue/cyan materials, precise and uncluttered. No text, labels, numbers, logos, or watermark.
+
+## s14-sn-lpp-sequence.png
+
+Use case: one continuous scientific process strip for a presentation. Depict, from left to right, a molten tin droplet, a moving droplet, a low-intensity pre-pulse shaping it into a pancake/expanded target, a main CO2 laser pulse, orange-gold hot tin plasma, cyan 13.5 nm EUV emission, and a collector mirror accepting the EUV. Make it clear that the laser creates plasma and the plasma emits EUV. Dark neutral chamber with high technical polish. No text, labels, numbers, logos, or watermark.
+
+## s17-high-na-anamorphic-optics.png
+
+Use case: side-by-side scientific comparison for engineers. On the left, show a symmetric low-NA reflective projection concept with equal-axis reduction and a narrower acceptance cone. On the right, show a High-NA anamorphic reflective projection concept with a wider acceptance cone, unequal-axis reduction, and a visibly narrower half-field in one direction. Mirror geometry should communicate magnification; do not imply that coating thickness creates 4x or 8x magnification. Clean white/pale-blue backdrop, navy/blue/cyan palette. No text, labels, numbers, logos, or watermark.
+
+## s18-stage-dynamics.png
+
+Use case: precision-mechatronics scientific illustration. Depict a generic synchronized reticle stage above and wafer stage below inside an advanced lithography scanner, with metrology beams, vibration isolation, linear motors, and a sense of extreme acceleration while maintaining nanometer positioning. Keep components sharp—no motion blur—and avoid showing a branded machine. Professional blue, cyan, graphite, and white palette. No text, labels, numbers, logos, or watermark.
