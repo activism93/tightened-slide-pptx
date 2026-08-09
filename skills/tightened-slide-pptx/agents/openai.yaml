@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tightened Slide PPTX"
+  short_description: "Build fully editable native PowerPoint decks"
+  default_prompt: "Use $tightened-slide-pptx to create a fully editable 16:9 PowerPoint deck with native text, shapes, charts, and diagrams."

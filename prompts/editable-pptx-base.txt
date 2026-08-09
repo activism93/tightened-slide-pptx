@@ -1,0 +1,15 @@
+With $tightened-slide-pptx skill,
+
+Create a fully editable native PowerPoint deck in 16:9 format.
+
+Every visible title, paragraph, label, line, box, diagram node, connector, chart, and table must be an individually editable PowerPoint object.
+
+Do not rasterize the completed slide.
+Do not place a full-slide PNG, JPEG, or screenshot inside the PPTX.
+Use bitmap images only for actual photos, illustrations, screenshots, or supplied evidence.
+Keep all explanatory text and diagram labels editable.
+
+Export the final deliverable as `.pptx`.
+Render and inspect every exported slide, run overflow checks, and validate that the PPTX has not been flattened.
+
+[Add the audience, slide count, source material, language, theme, and content requirements below this line.]
