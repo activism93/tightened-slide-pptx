@@ -5,7 +5,7 @@ import { FileBlob, Presentation, PresentationFile } from "@oai/artifact-tool";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, "..");
-const TMP = `${REPO}/work/euv-deck`;
+const TMP = `${REPO}/work/euv-deck-dense`;
 const OUT = `${REPO}/examples/euv-wavelength-beyond-platform-economics-ko.pptx`;
 const ASSET_DIR = path.join(HERE, "assets", "euv");
 const W = 1600;
@@ -145,12 +145,13 @@ function arrow(slide, x, y, w = 42, color = C.blue, size = 30) {
 }
 
 function slideBase(pres, no, section, title, kicker = "") {
+  const actualNo = pres.slides.items.length + 1;
   const s = pres.slides.add();
   s.background.fill = C.white;
   label(s, section, 64, 34, 650, { color: C.blue, size: 11 });
-  label(s, `${String(no).padStart(2, "0")} / 20`, 1390, 34, 146, { align: "right", size: 11 });
+  label(s, `${String(actualNo).padStart(2, "0")} / 14`, 1390, 34, 146, { align: "right", size: 11 });
   if (kicker) label(s, kicker, 64, 69, 820, { size: 10, color: C.grey3 });
-  addText(s, title, 64, kicker ? 94 : 76, 1472, 76, { size: kicker ? 43 : 47, bold: true, lineSpacing: 1.0, name: `slide-${no}-title` });
+  addText(s, title, 64, kicker ? 94 : 76, 1472, 76, { size: kicker ? 43 : 47, bold: true, lineSpacing: 1.0, name: `slide-${actualNo}-title` });
   return s;
 }
 
@@ -235,7 +236,7 @@ function slide01(pres) {
   addRect(s, 0, 0, 722, 620, C.navy);
   addRect(s, 690, 0, 32, 620, C.navy);
   label(s, "Semiconductor Engineering Presentation", 64, 42, 580, { color: C.cyan2, size: 11 });
-  label(s, "01 / 20", 1390, 42, 146, { color: C.white, align: "right", size: 11 });
+  label(s, "01 / 14", 1390, 42, 146, { color: C.white, align: "right", size: 11 });
   addText(s, "EUV,\n파장 너머의 문제", 64, 112, 590, 150, { size: 54, bold: true, color: C.white, lineSpacing: 0.98 });
   addText(s, "Pattern Transfer에서\nPlatform Economics까지", 64, 286, 530, 66, { size: 23, color: C.cyan2, lineSpacing: 1.08 });
   addRect(s, 64, 390, 530, 4, C.cyan);
@@ -836,6 +837,287 @@ function slide19(pres) {
   ], "Cost-of-patterning 판단은 source들의 기술·공정 trade-off를 통합한 발표용 synthesis이며 특정 layer에 대한 경제성 수치를 제시하지 않음.");
 }
 
+function denseResolution(pres) {
+  const s = slideBase(pres, 3, "Resolution Limit", "λ·NA·k₁이 resolution을 정하고 OPC가 low-k₁을 지탱한다", "RAYLEIGH + COMPUTATIONAL LITHOGRAPHY");
+  addRect(s, 64, 181, 442, 118, C.navy);
+  addText(s, "CD ≈ k₁ × λ / NA", 86, 204, 398, 46, { size: 34, bold: true, color: C.white, font: EFONT, align: "center" });
+  addText(s, "λ wavelength   ·   NA acceptance   ·   k₁ process factor", 86, 258, 398, 23, { size: 11.5, color: C.cyan2, font: EFONT, align: "center" });
+  card(s, 64, 324, 442, 158, "NA ↑", "더 넓은 angular range가 high-angle diffraction order를 수집한다. Imaging capability ↑, minimum CD ↓", { accent: C.cyan, size: 18.5 });
+  card(s, 64, 504, 442, 184, "k₁ ↓", "같은 λ·NA로 더 작은 feature를 요구한다. Image contrast와 process margin은 줄고 dose·focus·mask·PR variation 민감도는 커진다.", { accent: C.orange, size: 17.5 });
+  addRect(s, 64, 710, 442, 104, C.cyanSoft);
+  addText(s, "낮은 k₁은 ‘더 좋은 숫자’가 아니라\noptical limit에 더 가까운 운전점이다.", 84, 733, 402, 60, { size: 20, bold: true, color: C.blue, align: "center", valign: "middle" });
+
+  sectionRule(s, 550, 181, 438, "Acceptance cone", "NA = system concept");
+  addRect(s, 550, 228, 438, 254, C.paper, C.grey2, 1);
+  addRect(s, 722, 426, 94, 18, C.grey2);
+  label(s, "Wafer", 722, 397, 94, { align: "center", size: 8.5 });
+  addCircle(s, 769, 416, 5, C.blue);
+  addLine(s, 769, 416, 634, 268, C.cyan, 3);
+  addLine(s, 769, 416, 904, 268, C.cyan, 3);
+  addLine(s, 769, 416, 704, 266, C.grey3, 2);
+  addLine(s, 769, 416, 834, 266, C.grey3, 2);
+  addLine(s, 634, 268, 904, 268, C.cyan, 4);
+  addLine(s, 704, 281, 834, 281, C.grey3, 3);
+  label(s, "HIGH NA", 584, 239, 120, { color: C.cyan, align: "center" });
+  label(s, "LOW NA", 834, 286, 116, { color: C.grey3, align: "center" });
+  addText(s, "고각 회절광 = 고공간주파수 정보", 574, 452, 390, 24, { size: 15.5, color: C.blue, bold: true, align: "center" });
+  card(s, 550, 504, 438, 184, "DUV / EUV", "DUV에서는 projection lens의 NA, EUV에서는 projection mirror optics의 NA다. ‘빛을 더 잘 꺾는 정도’가 아니다.", { accent: C.blue, size: 17.5 });
+  addRect(s, 550, 710, 438, 104, C.navy);
+  addText(s, "NA ↑ → resolution 성능 ↑\n→ resolution limit 숫자 ↓", 572, 733, 394, 60, { size: 20, color: C.white, bold: true, align: "center", valign: "middle" });
+
+  sectionRule(s, 1032, 181, 504, "OPC closes the loop", "Mask → image → wafer");
+  addRect(s, 1032, 228, 504, 254, C.paper, C.grey2, 1);
+  label(s, "Literal mask", 1052, 246, 130, { align: "center" });
+  addRect(s, 1082, 292, 32, 58, C.ink);
+  addRect(s, 1132, 292, 32, 58, C.ink);
+  arrow(s, 1182, 301, 44, C.grey3, 26);
+  addCircle(s, 1270, 322, 29, C.grey3);
+  addCircle(s, 1342, 322, 29, C.grey3);
+  addText(s, "rounded / shortened", 1234, 365, 144, 22, { size: 11.5, color: C.red, font: EFONT, align: "center" });
+  label(s, "OPC mask", 1052, 405, 130, { color: C.blue, align: "center" });
+  addRect(s, 1066, 435, 50, 24, C.blue);
+  addRect(s, 1130, 435, 50, 24, C.blue);
+  addRect(s, 1058, 443, 130, 10, C.blue);
+  arrow(s, 1188, 420, 40, C.blue, 26);
+  addRect(s, 1252, 425, 36, 40, C.blue);
+  addRect(s, 1324, 425, 36, 40, C.blue);
+  addText(s, "target에 가까움", 1234, 463, 144, 18, { size: 11.5, color: C.blue, font: EFONT, align: "center" });
+  card(s, 1032, 504, 504, 184, "Optical Proximity Correction", "Diffraction과 imaging error를 계산해 mask geometry를 의도적으로 보정한다. Low-k₁ lithography를 가능하게 한 핵심 Resolution Enhancement Technique다.", { accent: C.cyan, size: 17 });
+  addRect(s, 1032, 710, 504, 104, C.blueSoft);
+  addText(s, "OPC는 mask 모양이 아니라\nwafer의 final geometry를 최적화한다.", 1056, 733, 456, 60, { size: 20, bold: true, color: C.blue, align: "center", valign: "middle" });
+  footer(s, "ASML · Rayleigh criterion; Pushing k1 further; Computational lithography");
+  notes(s, [
+    "https://www.asml.com/en/technology/lithography-principles/rayleigh-criterion",
+    "https://www.asml.com/en/technology/lithography-principles/pushing-k1-further",
+    "https://www.asml.com/en/products/computational-lithography",
+  ]);
+}
+
+function denseDuv(pres) {
+  const s = slideBase(pres, 4, "DUV Extension", "ArF immersion은 NA를 높였지만 wavelength만으로 resolution이 정해지지 않는다", "193 NM · NA 1.35 · TOOL-LEVEL RESOLUTION");
+  sectionRule(s, 64, 176, 1104, "ArF immersion optical path", "Water is in the last gap");
+  const xs = [64, 248, 432, 616, 800, 984];
+  const blocks = [
+    ["SOURCE", "ArF excimer\n193 nm", C.cyan, true],
+    ["ILLUMINATION", "Angle · pupil\ncontrol", C.blue, false],
+    ["RETICLE", "Transmissive\npattern", C.blue, false],
+    ["PROJECTION", "Refractive\nlens", C.blue, false],
+    ["LAST GAP", "Immersion\nwater", C.cyan, true],
+    ["IMAGE", "Wafer PR", C.blue, false],
+  ];
+  blocks.forEach(([a, b, color, dark], i) => {
+    flowBox(s, xs[i], 226, 154, 160, a, b, color, dark);
+    if (i < blocks.length - 1) arrow(s, xs[i] + 151, 286, 33, i === 3 ? C.cyan : C.blue, 25);
+  });
+  addText(s, "Immersion water는 projection lens의 마지막 optical element와 wafer PR 사이에 있다.", 64, 405, 1104, 34, { size: 18, color: C.blue, bold: true, align: "center" });
+  addRect(s, 1210, 176, 326, 263, C.navy);
+  label(s, "Water-based ArF immersion", 1232, 202, 282, { color: C.cyan2, align: "center" });
+  addText(s, "NA 1.35", 1232, 246, 282, 48, { size: 38, color: C.white, bold: true, font: EFONT, align: "center" });
+  addText(s, "38–40 nm", 1232, 314, 282, 48, { size: 36, color: C.cyan2, bold: true, font: EFONT, align: "center" });
+  label(s, "Tool-level single-patterning", 1232, 374, 282, { color: C.grey2, align: "center", size: 9 });
+
+  sectionRule(s, 64, 488, 1472, "Wavelength advantage is filtered through NA and k₁", "193 / 13.5 ≈ 14.3, resolution ≠ 14.3×");
+  const cols = [64, 560, 1056];
+  const rows = [
+    ["ArF immersion DUV", "193 nm", "NA ≈ 1.35", "38–40 nm", C.grey3],
+    ["Low-NA EUV · NXE", "13.5 nm", "NA = 0.33", "≈ 13 nm", C.blue],
+    ["High-NA EUV · EXE", "13.5 nm", "NA = 0.55", "≈ 8 nm", C.cyan],
+  ];
+  rows.forEach(([name, wave, na, res, accent], i) => {
+    addRect(s, cols[i], 536, 432, 246, C.paper, C.grey2, 1);
+    addRect(s, cols[i], 536, 432, 6, accent);
+    label(s, name, cols[i] + 20, 556, 392, { color: accent, align: "center", size: 10 });
+    addText(s, wave, cols[i] + 20, 592, 190, 42, { size: 30, bold: true, font: EFONT, align: "center" });
+    addText(s, na, cols[i] + 222, 592, 190, 42, { size: 22, color: accent, font: EFONT, align: "center", valign: "middle" });
+    addLine(s, cols[i] + 42, 652, cols[i] + 390, 652, C.grey2, 1);
+    addText(s, res, cols[i] + 20, 674, 392, 46, { size: 34, bold: true, color: accent, font: EFONT, align: "center" });
+    label(s, "Production resolution", cols[i] + 20, 732, 392, { align: "center", size: 8.5 });
+  });
+  addText(s, "Resolution은 λ뿐 아니라 NA와 k₁의 함수이며, 비교 수치는 node name이 아니라 각 platform의 공식 production-resolution 표기다.", 64, 798, 1472, 28, { size: 14.5, color: C.grey3, align: "center" });
+  footer(s, "ASML · Lenses & mirrors; NXT:2000i/2050i; NXE:3400C; EXE:5200B");
+  notes(s, [
+    "https://www.asml.com/technology/lithography-principles/lenses-and-mirrors",
+    "https://www.asml.com/en/technology/lithography-principles/light-and-lasers",
+    "https://www.asml.com/en/products/duv-lithography-systems/twinscan-nxt2000i",
+    "https://www.asml.com/en/en/products/duv-lithography-systems/twinscan-nxt2050i",
+    "https://www.asml.com/en/products/euv-lithography-systems/twinscan-nxe3400c",
+    "https://www.asml.com/products/euv-lithography-systems/twinscan-exe-5200b",
+  ]);
+}
+
+function denseMirrorPhysics(pres) {
+  const s = slideBase(pres, 8, "EUV Reflective Optics", "Mo/Si period와 constructive interference가 13.5 nm reflectivity를 만든다", "COATING PHYSICS + MIRROR GEOMETRY");
+  sectionRule(s, 64, 178, 420, "Mo/Si multilayer", "Optical coating period");
+  addRect(s, 64, 226, 420, 432, C.paper, C.grey2, 1);
+  for (let i = 0; i < 12; i += 1) {
+    const y = 254 + i * 24;
+    addRect(s, 136, y, 276, 12, i % 2 === 0 ? C.blue : C.cyanSoft, C.white, 0.5);
+    addText(s, i % 2 === 0 ? "Mo" : "Si", 416, y - 1, 42, 14, { size: 9, color: i % 2 === 0 ? C.blue : C.grey3, font: EFONT, valign: "middle" });
+  }
+  addLine(s, 104, 254, 104, 302, C.orange, 2);
+  addLine(s, 94, 254, 114, 254, C.orange, 2);
+  addLine(s, 94, 302, 114, 302, C.orange, 2);
+  addText(s, "1 period", 74, 309, 60, 34, { size: 11, color: C.orange, font: EFONT, align: "center" });
+  addText(s, "d = tMo + tSi", 104, 561, 340, 30, { size: 23, bold: true, color: C.blue, font: EFONT, align: "center" });
+  addText(s, "≈ 6.9 nm", 104, 598, 340, 38, { size: 31, bold: true, color: C.cyan, font: EFONT, align: "center" });
+
+  sectionRule(s, 526, 178, 502, "Mirror figure", "Coating ≠ magnification");
+  addRaster(s, "mosiMirror", 526, 226, 502, 432, "Curved Mo-Si multilayer mirror cutaway with cyan incident and reflected EUV beam", { fit: "contain", crop: { left: 0, top: 0, right: 0, bottom: 0 } });
+  addRect(s, 550, 530, 454, 102, C.navy);
+  label(s, "Curvature · position · arrangement", 568, 546, 418, { color: C.cyan2, align: "center" });
+  addText(s, "Focus · aberration correction\n· demagnification", 568, 575, 418, 45, { size: 17, color: C.white, bold: true, font: EFONT, align: "center", valign: "middle" });
+
+  sectionRule(s, 1070, 178, 466, "Bragg-like reflection", "θ = glancing angle");
+  addRect(s, 1070, 226, 466, 432, C.paper, C.grey2, 1);
+  for (let i = 0; i < 5; i += 1) addRect(s, 1094, 510 + i * 18, 418, 9, i % 2 === 0 ? C.blue : C.cyanSoft);
+  addLine(s, 1150, 288, 1274, 510, C.blue, 3);
+  addLine(s, 1274, 510, 1398, 288, C.blue, 3);
+  addLine(s, 1234, 288, 1340, 528, C.cyan, 3);
+  addLine(s, 1340, 528, 1446, 288, C.cyan, 3);
+  addText(s, "d sinθ", 1260, 436, 94, 20, { size: 13, color: C.orange, bold: true, font: EFONT, align: "center" });
+  addText(s, "+ d sinθ", 1340, 430, 94, 20, { size: 13, color: C.orange, bold: true, font: EFONT, align: "center" });
+  addText(s, "mλ = 2d sinθ", 1100, 596, 406, 30, { size: 26, color: C.blue, bold: true, font: EFONT, align: "center" });
+  addText(s, "α = surface-normal angle이면 mλ = 2d cosα", 1100, 628, 406, 22, { size: 12.5, color: C.grey3, font: EFONT, align: "center" });
+
+  const insights = [
+    [64, 456, "Interface", "각 interface의 partial reflection이 같은 phase로 겹친다.", C.blue],
+    [536, 496, "Near-normal", "d ≈ λ/2 → 13.5/2 ≈ 6.75 nm", C.cyan],
+    [1042, 494, "Reality", "≈6.9 nm는 absorption·phase shift·interface를 반영한 optimized period", C.orange],
+  ];
+  insights.forEach(([x, w, a, b, accent]) => card(s, x, 690, w, 126, a, b, { accent, size: 16.5 }));
+  footer(s, "Underwood & Barbee 1981; Montcalm et al. 1998; imec · EUV mask stack");
+  notes(s, [
+    "https://doi.org/10.1364/AO.20.003027",
+    "https://doi.org/10.1117/12.309600",
+    "https://www.osti.gov/servlets/purl/310916",
+    "https://www.imec-int.com/en/articles/high-na-euvl-next-major-step-lithography",
+  ], "AI-generated visual · OpenAI ImageGen · examples/assets/euv/s10-mosi-multilayer-mirror.png · prompt recorded in examples/assets/euv/prompts.txt");
+}
+
+function denseSource(pres) {
+  const s = slideBase(pres, 10, "EUV Source", "Sn은 photon을 만들고, LPP repetition이 source throughput을 만든다", "SOURCE FUEL + LASER-PRODUCED PLASMA");
+  addRaster(s, "snLpp", 64, 210, 1000, 420, "Tin laser-produced-plasma sequence from droplet shaping to EUV collection", { crop: { left: 0.01, top: 0.02, right: 0.01, bottom: 0.02 } });
+  const stages = ["Sn", "moving", "pre-pulse", "main CO₂", "plasma", "13.5 nm", "collector", "scanner"];
+  stages.forEach((name, i) => {
+    const x = 74 + i * 122;
+    addRect(s, x, 226, 112, 40, i >= 4 ? C.navy : C.blue);
+    addText(s, `${i + 1}  ${name}`, x + 5, 235, 102, 22, { size: 10.5, bold: true, color: i === 3 || i === 4 ? C.cyan2 : C.white, font: EFONT, align: "center" });
+  });
+  label(s, "Conceptual sequence · not to scale", 80, 596, 960, { color: C.white, align: "right", size: 8.5 });
+
+  addRect(s, 1104, 210, 432, 420, C.navy);
+  label(s, "Role split", 1128, 230, 384, { color: C.cyan2, align: "center" });
+  addText(s, "Sn", 1128, 270, 92, 45, { size: 34, bold: true, color: C.white, font: EFONT, align: "center" });
+  addText(s, "source fuel\n13.5 nm photon 생성", 1234, 268, 278, 55, { size: 17, color: C.grey2, align: "left", valign: "middle" });
+  addLine(s, 1128, 342, 1512, 342, C.blue, 1);
+  addText(s, "Mo/Si", 1128, 366, 110, 45, { size: 28, bold: true, color: C.cyan2, font: EFONT, align: "center" });
+  addText(s, "optical coating\n생성된 photon을 반사", 1250, 364, 262, 55, { size: 17, color: C.grey2, align: "left", valign: "middle" });
+  addLine(s, 1128, 438, 1512, 438, C.blue, 1);
+  addText(s, "≈25 µm", 1128, 460, 118, 34, { size: 24, bold: true, color: C.white, font: EFONT, align: "center" });
+  addText(s, "≈70 m/s", 1260, 460, 118, 34, { size: 24, bold: true, color: C.white, font: EFONT, align: "center" });
+  addText(s, "50k/s", 1392, 460, 118, 34, { size: 24, bold: true, color: C.cyan2, font: EFONT, align: "center" });
+  label(s, "droplet", 1128, 501, 118, { color: C.grey2, align: "center", size: 8.5 });
+  label(s, "velocity", 1260, 501, 118, { color: C.grey2, align: "center", size: 8.5 });
+  label(s, "interactions", 1392, 501, 118, { color: C.grey2, align: "center", size: 8.5 });
+  addText(s, "Xe · Li · Sn 후보 중 Sn LPP가 HVM source power / conversion-efficiency development의 주류가 됐다.", 1130, 544, 380, 62, { size: 16, color: C.white, align: "center", valign: "middle" });
+
+  card(s, 64, 660, 470, 156, "Mechanism", "Laser가 13.5 nm로 직접 바뀌는 것이 아니다. Sn을 plasma화하고 highly ionized Sn의 electronic transitions가 EUV를 방출한다.", { accent: C.cyan, size: 17 });
+  card(s, 566, 660, 470, 156, "Why repetition matters", "이 source는 켜 둔 lamp가 아니다. Moving target을 만들고 shaping·plasma화하는 과정을 초당 수만 회 반복한다.", { accent: C.blue, size: 17 });
+  card(s, 1068, 660, 468, 156, "Sn trade-off", "Metal debris·vapor·collector contamination 때문에 mass-limited droplet, debris mitigation, collector protection이 필요하다.", { accent: C.orange, size: 17 });
+  footer(s, "ASML · Light & lasers; J. Optics source-material review; JMM LPP source technology");
+  notes(s, [
+    "https://www.asml.com/en/technology/lithography-principles/light-and-lasers",
+    "https://doi.org/10.1088/2040-8986/ac5a7e",
+    "https://doi.org/10.1117/1.JMM.11.2.021111",
+    "https://doi.org/10.1063/5.0200896",
+  ], "AI-generated visual · OpenAI ImageGen · examples/assets/euv/s14-sn-lpp-sequence.png · prompt recorded in examples/assets/euv/prompts.txt");
+}
+
+function denseHighNa(pres) {
+  const s = slideBase(pres, 12, "High-NA EUV", "High-NA는 0.55 NA와 4×/8× anamorphic optics로 8 nm를 겨냥한다", "SAME 13.5 NM · DIFFERENT ACCEPTANCE + PROJECTION");
+  addRect(s, 64, 180, 1472, 58, C.cyanSoft);
+  addText(s, "Mo/Si coating = reflectivity   ·   projection mirror geometry = focusing + magnification", 88, 195, 1424, 29, { size: 18, bold: true, color: C.blue, font: EFONT, align: "center" });
+  addRaster(s, "highNa", 64, 266, 852, 426, "Low-NA symmetric projection compared with High-NA anamorphic projection and half-field", { crop: { left: 0.01, top: 0.01, right: 0.01, bottom: 0.01 } });
+  addRect(s, 84, 282, 384, 44, C.blue);
+  label(s, "NXE · 0.33 NA · 4×/4×", 98, 292, 356, { color: C.white, align: "center", size: 9.5 });
+  addRect(s, 492, 282, 404, 44, C.cyan);
+  label(s, "EXE · 0.55 NA · 4×/8×", 506, 292, 376, { color: C.navy, align: "center", size: 9.5 });
+  label(s, "Conceptual optics · not to scale", 84, 658, 812, { align: "right", color: C.grey3, size: 8.5 });
+
+  sectionRule(s, 958, 266, 578, "Platform comparison", "Both λ = 13.5 nm");
+  const specs = [
+    ["NXE · LOW-NA", "0.33", "≈13 nm", "4× / 4×", C.blue],
+    ["EXE · HIGH-NA", "0.55", "≈8 nm", "4× / 8×", C.cyan],
+  ];
+  specs.forEach(([name, na, res, mag, accent], i) => {
+    const y = 314 + i * 152;
+    addRect(s, 958, y, 578, 132, i === 1 ? C.navy : C.paper, i === 1 ? C.navy : C.grey2, 1);
+    label(s, name, 980, y + 15, 166, { color: i === 1 ? C.cyan2 : accent });
+    addText(s, na, 980, y + 50, 166, 44, { size: 34, bold: true, color: i === 1 ? C.white : accent, font: EFONT, align: "center" });
+    label(s, "NA", 980, y + 98, 166, { color: i === 1 ? C.grey2 : C.grey3, align: "center", size: 8.5 });
+    addText(s, res, 1168, y + 48, 152, 42, { size: 29, bold: true, color: i === 1 ? C.cyan2 : accent, font: EFONT, align: "center" });
+    label(s, "resolution", 1168, y + 98, 152, { color: i === 1 ? C.grey2 : C.grey3, align: "center", size: 8.5 });
+    addText(s, mag, 1342, y + 50, 170, 40, { size: 23, bold: true, color: i === 1 ? C.white : accent, font: EFONT, align: "center" });
+    label(s, "demagnification", 1342, y + 98, 170, { color: i === 1 ? C.grey2 : C.grey3, align: "center", size: 8.5 });
+  });
+  addRect(s, 958, 632, 578, 60, C.cyanSoft);
+  addText(s, "Single exposure에서 ≈1.7× smaller feature", 980, 648, 534, 28, { size: 20, bold: true, color: C.blue, align: "center" });
+
+  card(s, 64, 722, 456, 96, "Why anamorphic?", "Reticle incidence angle을 관리한다.", { accent: C.cyan, size: 17.5, bold: true });
+  card(s, 546, 722, 456, 96, "Trade-off", "한 방향 8× → half-size exposure field", { accent: C.orange, size: 17.5, bold: true });
+  card(s, 1028, 722, 508, 96, "System implication", "더 많은 field → faster stages · tighter control", { accent: C.blue, size: 17.5, bold: true });
+  footer(s, "ASML · NXE:3400C; EXE:5200B; 5 things about High-NA EUV; ZEISS · High-NA EUV");
+  notes(s, [
+    "https://www.asml.com/en/products/euv-lithography-systems/twinscan-nxe3400c",
+    "https://www.asml.com/products/euv-lithography-systems/twinscan-exe-5200b",
+    "https://www.asml.com/en/company/stories/2024/5-things-high-na-euv",
+    "https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html",
+  ], "AI-generated visual · OpenAI ImageGen · examples/assets/euv/s17-high-na-anamorphic-optics.png · prompt recorded in examples/assets/euv/prompts.txt");
+}
+
+function denseStageEconomics(pres) {
+  const s = slideBase(pres, 13, "Platform Economics", "Half-field 이후에는 stage dynamics까지 cost-of-patterning을 결정한다", "OPTICS → FIELD COUNT → MOTION CONTROL → ECONOMICS");
+  addRaster(s, "stage", 64, 196, 704, 352, "Precision reticle and wafer stages with metrology beams and vibration isolation", { crop: { left: 0.08, top: 0.06, right: 0.08, bottom: 0.06 } });
+  addRect(s, 84, 214, 300, 42, C.navy);
+  label(s, "Synchronized reticle + wafer stages", 98, 224, 272, { color: C.white, align: "center", size: 9 });
+  label(s, "Conceptual visualization", 84, 512, 660, { color: C.white, align: "right", size: 8.5 });
+
+  sectionRule(s, 808, 196, 728, "EXE:5000 stage scale", "Half-field → more exposures");
+  addRect(s, 808, 244, 728, 128, C.navy);
+  addText(s, "≈8 g", 834, 270, 188, 44, { size: 38, bold: true, color: C.white, font: EFONT, align: "center" });
+  addText(s, "≈32 g", 1054, 270, 188, 44, { size: 38, bold: true, color: C.cyan2, font: EFONT, align: "center" });
+  addText(s, "nm-level", 1274, 270, 236, 44, { size: 34, bold: true, color: C.white, font: EFONT, align: "center" });
+  label(s, "wafer stage", 834, 324, 188, { color: C.grey2, align: "center" });
+  label(s, "reticle stage", 1054, 324, 188, { color: C.grey2, align: "center" });
+  label(s, "positioning accuracy", 1274, 324, 236, { color: C.grey2, align: "center" });
+  card(s, 808, 398, 344, 150, "New bottleneck", "Source power가 exposure time을 줄이면 stage dynamics·overlay·focus·vibration control이 throughput을 제한할 수 있다.", { accent: C.orange, size: 17 });
+  card(s, 1192, 398, 344, 150, "Control problem", "수십 g acceleration에서도 imaging과 overlay에 필요한 positioning accuracy를 유지해야 한다.", { accent: C.cyan, size: 17 });
+
+  sectionRule(s, 64, 584, 1472, "Cost-of-patterning system view", "EUV is selected when the system wins");
+  const econ = [
+    [64, "Resolution", "single exposure", C.blue],
+    [360, "Complexity", "steps · masks", C.cyan],
+    [656, "Risk", "overlay · defect", C.orange],
+    [952, "Productivity", "throughput · cycle", C.cyan],
+    [1248, "Economics", "tool · process · yield", C.blue],
+  ];
+  econ.forEach(([x, a, b, accent], i) => {
+    addRect(s, x, 632, 264, 112, i === 4 ? C.navy : C.paper, i === 4 ? C.navy : C.grey2, 1);
+    addRect(s, x, 632, 264, 5, accent);
+    label(s, a, x + 16, 650, 232, { color: i === 4 ? C.cyan2 : accent, align: "center" });
+    addText(s, b, x + 16, 686, 232, 34, { size: 17.5, bold: true, color: i === 4 ? C.white : C.ink, font: EFONT, align: "center" });
+    if (i < econ.length - 1) arrow(s, x + 263, 664, 33, C.grey3, 24);
+  });
+  addRect(s, 64, 770, 1472, 52, C.cyanSoft);
+  addText(s, "DUV + multi-patterning이 더 경제적인 layer라면 EUV가 필수는 아니다. EUV는 전체 cost-of-patterning이 이길 때 선택된다.", 88, 783, 1424, 28, { size: 18, bold: true, color: C.blue, align: "center" });
+  footer(s, "ASML · High-NA EUV; imec · EUV HVM integration and multi-patterning context");
+  notes(s, [
+    "https://www.asml.com/en/company/stories/2024/5-things-high-na-euv",
+    "https://www.asml.com/en/products/euv-lithography-systems",
+    "https://www.imec-int.com/en/imec-magazine/imec-magazine-march-2017/first-euv-lithography-high-volume-manufacturing-solution-for-n5-beol",
+  ], "AI-generated visual · OpenAI ImageGen · examples/assets/euv/s18-stage-dynamics.png · prompt recorded in examples/assets/euv/prompts.txt. Cost-of-patterning은 source들의 trade-off를 통합한 synthesis이며 특정 layer의 경제성 수치를 제시하지 않음.");
+}
+
 function slide20(pres) {
   const s = slideBase(pres, 20, "Key Takeaways", "EUV의 가치는 13.5 nm photon을 양산 가능한 pattern으로 바꾸는 데 있다", "REFERENCE MAP");
   const takeaways = [
@@ -867,7 +1149,7 @@ function slide20(pres) {
     addText(s, b, 1124, y, 412, 66, { size: 15, lineSpacing: 1.16 });
   });
   addRect(s, 862, 744, 674, 74, C.cyanSoft);
-  addText(s, "모든 수치·역사·specification은 각 슬라이드 speaker notes의 [Sources]에서 URL로 추적 가능", 886, 764, 626, 34, { size: 17, color: C.blue, bold: true, align: "center" });
+  addText(s, "수치·역사·spec은 각 슬라이드 notes의 [Sources] URL로 추적 가능", 886, 764, 626, 34, { size: 16, color: C.blue, bold: true, align: "center" });
   footer(s, "Full URLs are embedded in each slide's [Sources] speaker-note block");
   notes(s, [
     "https://www.asml.com/en/technology/lithography-principles/rayleigh-criterion",
@@ -893,12 +1175,15 @@ async function writeBlob(path, blob) {
 }
 
 async function main() {
+  await fs.rm(`${TMP}/rendered`, { recursive: true, force: true });
+  await fs.rm(`${TMP}/layout`, { recursive: true, force: true });
+  await fs.rm(`${TMP}/reimported`, { recursive: true, force: true });
   await fs.mkdir(`${TMP}/rendered`, { recursive: true });
   await fs.mkdir(`${TMP}/layout`, { recursive: true });
   await loadRasterAssets();
   const pres = Presentation.create({ slideSize: { width: W, height: H } });
-  [slide01, slide02, slide03, slide04, slide05, slide06, slide07, slide08, slide09, slide10,
-   slide11, slide12, slide13, slide14, slide15, slide16, slide17, slide18, slide19, slide20]
+  [slide01, slide02, denseResolution, denseDuv, slide07, slide08, slide09, denseMirrorPhysics,
+   slide12, denseSource, slide15, denseHighNa, denseStageEconomics, slide20]
     .forEach((build) => build(pres));
 
   const imageInspect = await pres.inspect({ kind: "image", maxChars: 20000 });

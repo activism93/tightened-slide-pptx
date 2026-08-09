@@ -68,6 +68,26 @@ slide.speakerNotes.textFrame.setText(
 );
 ```
 
+## Bounded visual asset
+
+Keep the image separate from editable labels and claims:
+
+```js
+const visual = slide.images.add({
+  blob: imageBytes,
+  contentType: "image/png",
+  alt: "[AI visual] Generic multilayer mirror cutaway with reflected EUV beam",
+  prompt: "Prompt recorded in source-notes.txt",
+  fit: "cover",
+  position: { left: 860, top: 210, width: 650, height: 430 },
+  crop: { left: 0.02, top: 0.02, right: 0.02, bottom: 0.02 },
+  geometry: "roundRect",
+  borderRadius: 14,
+});
+```
+
+Add the title, scale disclaimer, labels, dimensions, and explanatory copy with native textboxes. Do not put a completed slide render in `blob`.
+
 ## Export
 
 ```js
@@ -75,4 +95,4 @@ const pptx = await PresentationFile.exportPptx(presentation);
 await pptx.save(finalPptx);
 ```
 
-Do not call `slide.images.add()` with a rendered slide image.
+Do not call `slide.images.add()` with a rendered slide image. Follow `images.md` for slot planning, prompt constraints, and provenance.
