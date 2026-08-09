@@ -9,7 +9,12 @@ The final deck keeps text, shapes, lines, connectors, charts, tables, and diagra
 ```text
 skills/tightened-slide-pptx/   Codex skill
 prompts/                       Reusable editable-PPTX prompt
+examples/                      Editable PPTX examples and generation source
 ```
+
+## Example deck
+
+[`examples/euv-wavelength-beyond-platform-economics-ko.pptx`](examples/euv-wavelength-beyond-platform-economics-ko.pptx) is a 20-slide Korean semiconductor-engineering deck covering Pattern Transfer, DUV extension, EUV reflective optics, Sn LPP sources, High-NA EUV, and platform economics. Visible text, technical labels, and core schematics remain editable PowerPoint objects; seven bounded, text-free ImageGen visuals add depth to selected slides without flattening the deck. Cited claims and image provenance are recorded in speaker notes.
 
 ## Install
 
